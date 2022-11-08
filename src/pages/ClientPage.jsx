@@ -4,6 +4,8 @@ import axios from "axios";
 const ClientPage = () => {
 
     const [clients, setClients] = useState([]);
+    const [isLoading, setIsLoading] = useState( true);
+    const [erreur, setErreur] = useState("")
 
     useEffect(()=>{
        // console.log(clients)
@@ -11,11 +13,16 @@ const ClientPage = () => {
       //  axios.get("https://jsonplaceholder.typicode.com/users")
             .then(r => {
                  setClients(r.data["hydra:member"])
+                setErreur("okkkkkkkkkk!")
               //setClients(r.data)
                  //console.log(r.data)
             }).catch(function (error) {
-             console.log(error.message)
+             console.log(typeof error.message)
+             setErreur("Pas de connexion ");
+             //console.log(erreur)
          })
+          setIsLoading(false)
+        console.log(erreur)
 
     }, [])
 
@@ -29,10 +36,25 @@ const ClientPage = () => {
             .catch(function (error) {
                 setClients(clientOriginal);
             })
-
     }
 
 
+
+    if(isLoading) {
+        return (
+            <div style={{color: "red"}}>
+                Chargement des clients en cours...
+            </div>
+        )
+    }
+
+    // if(erreur){
+    //     return (
+    //         <div style={{marginBottom: "100px"}}>
+    //             {erreur}
+    //         </div>
+    //     )
+    // }
 
 
     return (
