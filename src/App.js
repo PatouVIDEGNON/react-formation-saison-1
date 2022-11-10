@@ -8,7 +8,9 @@ import {
     Routes,
     Route,
 } from "react-router-dom"
-
+import LoginPage from "./pages/LoginPage";
+import {ToastContainer} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"
 
 
 function App() {
@@ -16,11 +18,11 @@ function App() {
     <div className="App">
      <Navbar/>
             <Routes>
-                <Route path="/" element={<HomePage/>}/>
+                <Route path="/" element={<LoginPage/>}/>
                 <Route path="/prestation" element={<PrestationPage/>}/>
                 <Route path="/Client" element={<ClientPage/>}/>
             </Routes>
-
+    <ToastContainer/>
     </div>
   );
 }

@@ -6,6 +6,12 @@ const ClientPage = () => {
     const [clients, setClients] = useState([]);
     const [isLoading, setIsLoading] = useState( true);
     const [erreur, setErreur] = useState("")
+    const [postClient, setPostClient] = useState({
+        nom: "",
+        email: "",
+        tel: "",
+    })
+
 
     useEffect(()=>{
        // console.log(clients)
@@ -16,8 +22,9 @@ const ClientPage = () => {
                 setErreur("okkkkkkkkkk!")
               //setClients(r.data)
                  //console.log(r.data)
-            }).catch(function (error) {
-             console.log(typeof error.message)
+            })
+             .catch(function (error) {
+            // console.log(typeof error.message)
              setErreur("Pas de connexion ");
              //console.log(erreur)
          })
@@ -28,6 +35,7 @@ const ClientPage = () => {
 
 
     const handleDelete = (id) => {
+       // console.log(id)
         const clientOriginal = [...clients];
         setClients(clients.filter(client => client.id !== id))
        // console.log(clientOriginal)
@@ -37,6 +45,34 @@ const ClientPage = () => {
                 setClients(clientOriginal);
             })
     }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        axios.post("http://192.168.100.65:8000/api/clients", postClient)
+            .then(response => {
+                console.log(response)
+            })
+     //   console.log(postClient)
+    }
+
+    const handleChange = ({currentTarget}) => {
+        const {name, value} = currentTarget;
+        setPostClient({...postClient, [name]: value,})
+    }
+
+    // const handleChange = (e) => {
+    //     const value = e.currentTarget.value;
+    //     const name = e.currentTarget.name;
+    //
+    //
+    //     setPostClient({...postClient, [name]: value,})
+    //     console.log("Spread Operator", {...postClient});
+    //     console.log(" name de l'input sur lequel on est : ", name );
+    //     console.log("Clé du name de l'input sur lequel on est : ", [name]);
+    //     console.log("Valeur de l'input sur lequel on est : ",value);
+    //     // console.log({...postClient, [name]: value,});
+    //     console.log({...postClient, [name]: value,})
+    // }
 
 
 
@@ -59,6 +95,51 @@ const ClientPage = () => {
 
     return (
         <div className="container mt-3 ">
+
+            <div className="container">
+                <form  className="form-inline" onSubmit={handleSubmit}>
+                    <div className="container">
+                        <div className="row">
+                            <div className="col">
+                                <input
+                                    type="text"
+                                    placeholder="nom"
+                                    className="form-control"
+                                    name="nom"
+                                    onChange={handleChange}
+                                    value={postClient.nom}
+                                />
+                            </div>
+                            <div className="col">
+                                <input
+                                    type="text"
+                                    placeholder="email"
+                                    className="form-control"
+                                    name="email"
+                                    onChange={handleChange}
+                                    value={postClient.email}
+                                />
+                            </div>
+                            <div className="col">
+                                <input
+                                    type="text"
+                                    placeholder="Tel"
+                                    className="form-control"
+                                    name="tel"
+                                    onChange={handleChange}
+                                    value={postClient.tel}
+                                />
+                            </div>
+                            <div className="col">
+                                <div className="form-group">
+                                    <button className="btn btn-dark">Ajouter un client</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+                <br/>
             <div className="row">
                 <div className="col-8">
                     <h1>Client</h1>
